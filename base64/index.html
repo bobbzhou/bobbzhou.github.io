@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base64工具</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: white;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 24px;
+            font-weight: 600;
+        }
+        .input-section {
+            margin-bottom: 25px;
+        }
+        .textarea-wrapper {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        textarea {
+            width: 100%;
+            padding: 15px;
+            padding-right: 80px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            resize: vertical;
+            min-height: 120px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color 0.3s ease;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+        textarea::placeholder {
+            color: #999;
+        }
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 6px 12px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+            white-space: nowrap;
+        }
+        .copy-btn:hover {
+            background-color: #2980b9;
+        }
+        .copy-btn.copied {
+            background-color: #27ae60;
+        }
+        .clear-btn {
+            position: absolute;
+            bottom: 17px;
+            right: 10px;
+            padding: 6px 12px;
+            background-color: #95a5a6;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+            white-space: nowrap;
+        }
+        .clear-btn:hover {
+            background-color: #7f8c8d;
+        }
+        .button-group {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin: 30px 0;
+        }
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            min-width: 100px;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+        .btn-primary {
+            background-color: #27ae60;
+        }
+        .btn-primary:hover {
+            background-color: #229954;
+        }
+        .btn-secondary {
+            background-color: #3498db;
+        }
+        .btn-secondary:hover {
+            background-color: #2980b9;
+        }
+        .btn-accent {
+            background-color: #f39c12;
+        }
+        .btn-accent:hover {
+            background-color: #e67e22;
+        }
+        @media (max-width: 600px) {
+            .container {
+                margin: 20px;
+                padding: 20px;
+            }
+            .button-group {
+                flex-wrap: wrap;
+            }
+            .btn {
+                flex: 1;
+                min-width: 80px;
+                font-size: 12px;
+                padding: 10px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Base64编码/解码工具</h1>
+        
+        <div class="input-section">
+            <div class="textarea-wrapper">
+                <textarea id="input-text" placeholder="输入文本或Base64字符串" onkeydown="return event.key !== ' ';" oninput="this.value = this.value.replace(/\s/g, '');"></textarea>
+                <button class="copy-btn" onclick="copyText('input-text')">复制</button>
+                <button class="clear-btn" onclick="clearInput()">清空</button>
+            </div>
+        </div>
+        
+        <div class="button-group">
+            <button class="btn btn-primary" onclick="encodeText()">编码</button>
+            <button class="btn btn-secondary" onclick="decodeText()">解码</button>
+            <button class="btn btn-accent" onclick="swapText()">对调</button>
+        </div>
+        
+        <div class="input-section">
+            <div class="textarea-wrapper">
+                <textarea id="output-text" placeholder="结果"></textarea>
+                <button class="copy-btn" onclick="copyText('output-text')">复制</button>
+                <button class="clear-btn" onclick="clearOutput()">清空</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function encodeText() {
+            const input = document.getElementById('input-text').value;
+            try {
+                const output = btoa(input);
+                document.getElementById('output-text').value = output;
+            } catch (e) {
+                document.getElementById('output-text').value = '编码失败，请检查输入';
+            }
+        }
+        
+        function decodeText() {
+            const input = document.getElementById('input-text').value;
+            try {
+                const output = atob(input);
+                document.getElementById('output-text').value = output;
+            } catch (e) {
+                document.getElementById('output-text').value = '解码失败，请检查输入';
+            }
+        }
+
+        function copyText(elementId) {
+            const textarea = document.getElementById(elementId);
+            textarea.select();
+            document.execCommand('copy');
+            const btn = textarea.nextElementSibling;
+            const originalText = btn.textContent;
+            btn.textContent = '已复制';
+            btn.classList.add('copied');
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.classList.remove('copied');
+            }, 1500);
+        }
+
+        function swapText() {
+            const inputText = document.getElementById('input-text').value;
+            const outputText = document.getElementById('output-text').value;
+            document.getElementById('input-text').value = outputText;
+            document.getElementById('output-text').value = inputText;
+        }
+
+        function clearInput() {
+            document.getElementById('input-text').value = '';
+        }
+
+        function clearOutput() {
+            document.getElementById('output-text').value = '';
+        }
+    </script>
+</body>
+</html>

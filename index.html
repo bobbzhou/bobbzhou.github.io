@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>工具导航</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: white;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 400px;
+            width: 100%;
+        }
+        .tool-link {
+            display: block;
+            padding: 15px 20px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .tool-link:hover {
+            background-color: #2980b9;
+            box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="base64/index.html" class="tool-link">Base64编码/解码工具</a>
+    </div>
+</body>
+</html>
