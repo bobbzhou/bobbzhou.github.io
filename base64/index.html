@@ -142,13 +142,12 @@
                 padding: 20px;
             }
             .button-group {
-                flex-wrap: wrap;
+                gap: 8px;
             }
             .btn {
-                flex: 1;
-                min-width: 80px;
-                font-size: 12px;
-                padding: 10px 16px;
+                font-size: 11px;
+                padding: 8px 12px;
+                min-width: 70px;
             }
         }
     </style>
@@ -161,7 +160,6 @@
             <div class="textarea-wrapper">
                 <textarea id="input-text" placeholder="输入文本或Base64字符串" onkeydown="return event.key !== ' ';" oninput="this.value = this.value.replace(/\s/g, '');"></textarea>
                 <button class="copy-btn" onclick="copyText('input-text')">复制</button>
-                <button class="clear-btn" onclick="clearInput()">清空</button>
             </div>
         </div>
         
@@ -169,13 +167,13 @@
             <button class="btn btn-primary" onclick="encodeText()">编码</button>
             <button class="btn btn-secondary" onclick="decodeText()">解码</button>
             <button class="btn btn-accent" onclick="swapText()">对调</button>
+            <button class="btn btn-accent" onclick="clearAll()">清空</button>
         </div>
         
         <div class="input-section">
             <div class="textarea-wrapper">
                 <textarea id="output-text" placeholder="结果"></textarea>
                 <button class="copy-btn" onclick="copyText('output-text')">复制</button>
-                <button class="clear-btn" onclick="clearOutput()">清空</button>
             </div>
         </div>
     </div>
@@ -222,11 +220,8 @@
             document.getElementById('output-text').value = inputText;
         }
 
-        function clearInput() {
+        function clearAll() {
             document.getElementById('input-text').value = '';
-        }
-
-        function clearOutput() {
             document.getElementById('output-text').value = '';
         }
     </script>
